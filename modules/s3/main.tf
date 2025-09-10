@@ -1,19 +1,12 @@
 # S3 Bucket for storing receipts/boletas
 resource "aws_s3_bucket" "receipts" {
-  bucket = "${var.project_name}-${var.environment}-receipts-${random_string.bucket_suffix.result}"
+  bucket = "${var.project_name}-${var.environment}-receipts"
 
   tags = merge(var.tags, {
     Name    = "${var.project_name}-${var.environment}-receipts"
     Type    = "S3"
     Purpose = "Receipts Storage"
   })
-}
-
-# Random string for bucket suffix to ensure uniqueness
-resource "random_string" "bucket_suffix" {
-  length  = 8
-  special = false
-  upper   = false
 }
 
 # S3 Bucket versioning
