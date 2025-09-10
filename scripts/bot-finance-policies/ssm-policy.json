@@ -1,0 +1,19 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ssm:PutParameter",
+                "ssm:GetParameter",
+                "ssm:GetParameters",
+                "ssm:GetParametersByPath",
+                "ssm:DeleteParameter",
+                "ssm:DescribeParameters"
+            ],
+            "Resource": [
+                "arn:aws:ssm:*:*:parameter/bot-finance/*"
+            ]
+        }
+    ]
+}
