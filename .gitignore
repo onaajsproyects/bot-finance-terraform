@@ -1,0 +1,41 @@
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+*.auto.tfvars
+tfplan
+destroy-plan
+
+# AWS
+.aws/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Secrets
+*.pem
+*.key
+.env
+config.json
+
+# Build artifacts
+*.zip
+dist/
+build/
+
+# Backup files
+backup_*
+
+.github/
