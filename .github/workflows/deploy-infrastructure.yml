@@ -3,16 +3,8 @@ name: Deploy Bot Finance Infrastructure
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'environments/**'
-      - 'modules/**'
-      - 'scripts/**'
   pull_request:
     branches: [ main ]
-    paths:
-      - 'environments/**'
-      - 'modules/**'
-      - 'scripts/**'
   workflow_dispatch:
     inputs:
       environment:
