@@ -115,18 +115,18 @@ variable "enable_enhanced_logging" {
 variable "bot_config" {
   description = "Bot configuration"
   type = object({
-    max_retries           = number
-    timeout_seconds       = number
-    enable_debug_mode     = bool
-    max_file_size_mb      = number
-    supported_currencies  = list(string)
+    max_retries          = number
+    timeout_seconds      = number
+    enable_debug_mode    = bool
+    max_file_size_mb     = number
+    supported_currencies = list(string)
   })
   default = {
-    max_retries           = 3
-    timeout_seconds       = 30
-    enable_debug_mode     = false
-    max_file_size_mb      = 10
-    supported_currencies  = ["CLP", "USD", "EUR"]
+    max_retries          = 3
+    timeout_seconds      = 30
+    enable_debug_mode    = false
+    max_file_size_mb     = 10
+    supported_currencies = ["CLP", "USD", "EUR"]
   }
 }
 
@@ -134,10 +134,10 @@ variable "feature_flags" {
   description = "Feature flags"
   type        = map(bool)
   default = {
-    enable_webhooks       = true
-    enable_file_uploads   = true
-    enable_metrics        = true
-    enable_backup         = true
-    enable_notifications  = false
+    enable_webhooks      = true
+    enable_file_uploads  = true
+    enable_metrics       = true
+    enable_backup        = true
+    enable_notifications = false
   }
 }

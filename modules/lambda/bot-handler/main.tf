@@ -9,12 +9,12 @@ data "archive_file" "bot_handler" {
 resource "aws_lambda_function" "bot_handler" {
   filename         = data.archive_file.bot_handler.output_path
   function_name    = "${var.project_name}-${var.environment}-bot-handler"
-  role            = var.lambda_role_arn
-  handler         = var.handler
+  role             = var.lambda_role_arn
+  handler          = var.handler
   source_code_hash = data.archive_file.bot_handler.output_base64sha256
-  runtime         = var.runtime
-  timeout         = var.timeout
-  memory_size     = var.memory_size
+  runtime          = var.runtime
+  timeout          = var.timeout
+  memory_size      = var.memory_size
 
   # Environment variables
   environment {
@@ -94,13 +94,13 @@ resource "aws_lambda_alias" "bot_handler" {
 
 # Lambda event source mapping for DynamoDB Streams (if enabled)
 resource "aws_lambda_event_source_mapping" "dynamodb_stream" {
-  count                          = var.dynamodb_stream_arn != null ? 1 : 0
-  event_source_arn              = var.dynamodb_stream_arn
-  function_name                 = aws_lambda_function.bot_handler.arn
-  starting_position             = var.stream_starting_position
-  batch_size                    = var.stream_batch_size
+  count                              = var.dynamodb_stream_arn != null ? 1 : 0
+  event_source_arn                   = var.dynamodb_stream_arn
+  function_name                      = aws_lambda_function.bot_handler.arn
+  starting_position                  = var.stream_starting_position
+  batch_size                         = var.stream_batch_size
   maximum_batching_window_in_seconds = var.stream_maximum_batching_window
-  parallelization_factor        = var.stream_parallelization_factor
+  parallelization_factor             = var.stream_parallelization_factor
 
   # Error handling
   dynamic "destination_config" {

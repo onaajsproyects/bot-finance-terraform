@@ -1,9 +1,9 @@
 # DynamoDB Table for transactions
 resource "aws_dynamodb_table" "transactions" {
-  name           = "${var.project_name}-${var.environment}-transactions"
-  billing_mode   = var.billing_mode
-  hash_key       = "transaction_id"
-  range_key      = "timestamp"
+  name         = "${var.project_name}-${var.environment}-transactions"
+  billing_mode = var.billing_mode
+  hash_key     = "transaction_id"
+  range_key    = "timestamp"
 
   # Provisioned capacity (only used if billing_mode is PROVISIONED)
   read_capacity  = var.billing_mode == "PROVISIONED" ? var.read_capacity : null

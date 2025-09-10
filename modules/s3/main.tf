@@ -3,9 +3,9 @@ resource "aws_s3_bucket" "receipts" {
   bucket = "${var.project_name}-${var.environment}-receipts-${random_string.bucket_suffix.result}"
 
   tags = merge(var.tags, {
-    Name        = "${var.project_name}-${var.environment}-receipts"
-    Type        = "S3"
-    Purpose     = "Receipts Storage"
+    Name    = "${var.project_name}-${var.environment}-receipts"
+    Type    = "S3"
+    Purpose = "Receipts Storage"
   })
 }
 

@@ -7,9 +7,9 @@ resource "aws_ssm_parameter" "telegram_token" {
   description = "Telegram Bot Token for ${var.project_name} ${var.environment}"
 
   tags = merge(var.tags, {
-    Name        = "${var.project_name}-${var.environment}-telegram-token"
-    Type        = "SSM Parameter"
-    Sensitive   = "true"
+    Name      = "${var.project_name}-${var.environment}-telegram-token"
+    Type      = "SSM Parameter"
+    Sensitive = "true"
   })
 }
 

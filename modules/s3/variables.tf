@@ -101,11 +101,11 @@ variable "enable_notifications" {
 variable "lambda_notifications" {
   description = "Lambda function notifications configuration"
   type = list(object({
-    function_arn    = string
-    function_name   = string
-    events          = list(string)
-    filter_prefix   = string
-    filter_suffix   = string
+    function_arn  = string
+    function_name = string
+    events        = list(string)
+    filter_prefix = string
+    filter_suffix = string
   }))
   default = []
 }
