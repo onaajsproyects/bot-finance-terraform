@@ -10,12 +10,12 @@ output "api_gateway_arn" {
 
 output "api_gateway_url" {
   description = "URL of the API Gateway"
-  value       = aws_api_gateway_deployment.bot_finance.invoke_url
+  value       = aws_api_gateway_stage.bot_finance.invoke_url
 }
 
 output "webhook_url" {
   description = "Complete webhook URL"
-  value       = "${aws_api_gateway_deployment.bot_finance.invoke_url}/webhook"
+  value       = "${aws_api_gateway_stage.bot_finance.invoke_url}/webhook"
 }
 
 output "api_gateway_execution_arn" {
@@ -30,5 +30,5 @@ output "deployment_id" {
 
 output "stage_name" {
   description = "Stage name of the API Gateway deployment"
-  value       = aws_api_gateway_deployment.bot_finance.stage_name
+  value       = aws_api_gateway_stage.bot_finance.stage_name
 }

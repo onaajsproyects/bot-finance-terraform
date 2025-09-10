@@ -70,7 +70,6 @@ resource "aws_api_gateway_deployment" "bot_finance" {
   ]
 
   rest_api_id = aws_api_gateway_rest_api.bot_finance.id
-  stage_name  = var.environment
 
   lifecycle {
     create_before_destroy = true
@@ -83,6 +82,15 @@ resource "aws_api_gateway_deployment" "bot_finance" {
       aws_api_gateway_integration.webhook_lambda.id,
     ]))
   }
+}
+
+# API Gateway Stage
+resource "aws_api_gateway_stage" "bot_finance" {
+  deployment_id = aws_api_gateway_deployment.bot_finance.id
+  rest_api_id   = aws_api_gateway_rest_api.bot_finance.id
+  stage_name    = var.environment
+
+  tags = var.tags
 }
 
 # Lambda permission for API Gateway
@@ -102,7 +110,7 @@ resource "aws_api_gateway_usage_plan" "bot_finance" {
 
   api_stages {
     api_id = aws_api_gateway_rest_api.bot_finance.id
-    stage  = aws_api_gateway_deployment.bot_finance.stage_name
+    stage  = aws_api_gateway_stage.bot_finance.stage_name
   }
 
   quota_settings {
