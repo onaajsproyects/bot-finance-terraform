@@ -20,7 +20,7 @@ terraform {
   # Uncomment and configure for production use
   # backend "s3" {
   #   bucket         = "your-terraform-state-bucket"
-  #   key            = "telegram-bot/prod/terraform.tfstate"
+  #   key            = "bot-finance/prod/terraform.tfstate"
   #   region         = "us-east-1"
   #   encrypt        = true
   #   dynamodb_table = "terraform-state-lock"
@@ -28,7 +28,8 @@ terraform {
 }
 
 provider "aws" {
-  region = var.aws_region
+  region  = var.aws_region
+  profile = "bot-finance"
 
   default_tags {
     tags = {
