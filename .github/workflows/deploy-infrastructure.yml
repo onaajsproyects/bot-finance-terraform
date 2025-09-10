@@ -58,7 +58,7 @@ jobs:
       working-directory: environments/${{ env.TF_VAR_environment }}
       run: |
         terraform plan \
-          -var="telegram_token_parameter=/bot-finance/prod/token" \
+          -var="telegram_token=${{ secrets.TELEGRAM_TOKEN }}" \
           -out=tfplan
 
     - name: Upload Plan Artifact
@@ -105,6 +105,15 @@ jobs:
       working-directory: environments/${{ env.TF_VAR_environment }}
       run: terraform apply -auto-approve tfplan
 
+    - name: Update Telegram Token in SSM
+      run: |
+        aws ssm put-parameter \
+          --region ${{ env.AWS_REGION }} \
+          --name "/bot-finance/${{ env.TF_VAR_environment }}/telegram/token" \
+          --value "${{ secrets.TELEGRAM_TOKEN }}" \
+          --type "SecureString" \
+          --overwrite
+
     - name: Get Outputs
       working-directory: environments/${{ env.TF_VAR_environment }}
       id: terraform-outputs
@@ -124,13 +133,8 @@ jobs:
         
         echo "🔗 Configurando webhook: $WEBHOOK_URL"
         
-        # Obtener el token de Telegram desde AWS SSM
-        TELEGRAM_TOKEN=$(aws ssm get-parameter \
-          --region ${{ env.AWS_REGION }} \
-          --name "/bot-finance/prod/token" \
-          --with-decryption \
-          --query 'Parameter.Value' \
-          --output text)
+        # Obtener el token de Telegram desde GitHub Secrets
+        TELEGRAM_TOKEN="${{ secrets.TELEGRAM_TOKEN }}"
         
         if [ -z "$TELEGRAM_TOKEN" ]; then
           echo "❌ No se pudo obtener el token de Telegram"
