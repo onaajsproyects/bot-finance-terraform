@@ -74,18 +74,12 @@ resource "aws_dynamodb_table" "transactions" {
 
   # Server-side encryption
   server_side_encryption {
-    enabled     = var.enable_encryption
-    kms_key_id  = var.kms_key_id
+    enabled = var.enable_encryption
   }
 
   # Stream configuration for real-time updates
-  dynamic "stream_specification" {
-    for_each = var.enable_streams ? [1] : []
-    content {
-      enabled   = true
-      view_type = var.stream_view_type
-    }
-  }
+  stream_enabled   = var.enable_streams
+  stream_view_type = var.enable_streams ? var.stream_view_type : null
 
   # TTL configuration
   dynamic "ttl" {

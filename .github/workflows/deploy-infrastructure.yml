@@ -1,0 +1,189 @@
+name: Deploy Bot Finance Infrastructure
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'environments/**'
+      - 'modules/**'
+      - 'scripts/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'environments/**'
+      - 'modules/**'
+      - 'scripts/**'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy'
+        required: true
+        default: 'prod'
+        type: choice
+        options:
+          - prod
+          - dev
+
+env:
+  AWS_REGION: us-east-1
+  TF_VAR_environment: ${{ github.event.inputs.environment || 'prod' }}
+
+jobs:
+  validate:
+    name: Validate Terraform
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Infrastructure Code
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: "1.6.0"
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Terraform Format Check
+      working-directory: environments/${{ env.TF_VAR_environment }}
+      run: terraform fmt -check -recursive
+
+    - name: Terraform Init
+      working-directory: environments/${{ env.TF_VAR_environment }}
+      run: terraform init
+
+    - name: Terraform Validate
+      working-directory: environments/${{ env.TF_VAR_environment }}
+      run: terraform validate
+
+    - name: Terraform Plan
+      working-directory: environments/${{ env.TF_VAR_environment }}
+      run: |
+        terraform plan \
+          -var="telegram_token_parameter=/bot-finance/prod/token" \
+          -out=tfplan
+
+    - name: Upload Plan Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: terraform-plan-${{ env.TF_VAR_environment }}
+        path: environments/${{ env.TF_VAR_environment }}/tfplan
+
+  deploy:
+    name: Deploy Infrastructure
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.ref == 'refs/heads/main'
+    environment: ${{ github.event.inputs.environment || 'prod' }}
+    
+    steps:
+    - name: Checkout Infrastructure Code
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: "1.6.0"
+        terraform_wrapper: false
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Download Plan Artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: terraform-plan-${{ env.TF_VAR_environment }}
+        path: environments/${{ env.TF_VAR_environment }}
+
+    - name: Terraform Init
+      working-directory: environments/${{ env.TF_VAR_environment }}
+      run: terraform init
+
+    - name: Terraform Apply
+      working-directory: environments/${{ env.TF_VAR_environment }}
+      run: terraform apply -auto-approve tfplan
+
+    - name: Get Outputs
+      working-directory: environments/${{ env.TF_VAR_environment }}
+      id: terraform-outputs
+      run: |
+        echo "api_gateway_url=$(terraform output -raw api_gateway_url)" >> $GITHUB_OUTPUT
+        echo "lambda_function_name=$(terraform output -raw lambda_function_name)" >> $GITHUB_OUTPUT
+
+    - name: Configure Telegram Webhook
+      run: |
+        # Verificar que tenemos la URL del API Gateway
+        WEBHOOK_URL="${{ steps.terraform-outputs.outputs.api_gateway_url }}"
+        
+        if [ -z "$WEBHOOK_URL" ]; then
+          echo "❌ No se pudo obtener la URL del webhook"
+          exit 1
+        fi
+        
+        echo "🔗 Configurando webhook: $WEBHOOK_URL"
+        
+        # Obtener el token de Telegram desde AWS SSM
+        TELEGRAM_TOKEN=$(aws ssm get-parameter \
+          --region ${{ env.AWS_REGION }} \
+          --name "/bot-finance/prod/token" \
+          --with-decryption \
+          --query 'Parameter.Value' \
+          --output text)
+        
+        if [ -z "$TELEGRAM_TOKEN" ]; then
+          echo "❌ No se pudo obtener el token de Telegram"
+          exit 1
+        fi
+        
+        # Configurar el webhook
+        RESPONSE=$(curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/setWebhook" \
+          -H "Content-Type: application/json" \
+          -d "{\"url\":\"${WEBHOOK_URL}\"}")
+        
+        echo "📱 Respuesta de Telegram: $RESPONSE"
+        
+        # Verificar que la configuración fue exitosa
+        if echo "$RESPONSE" | grep -q '"ok":true'; then
+          echo "✅ Webhook configurado exitosamente"
+        else
+          echo "❌ Error configurando webhook"
+          exit 1
+        fi
+
+    - name: Deployment Summary
+      run: |
+        echo "🎉 ¡Deployment completado!"
+        echo "=========================="
+        echo "🌍 Environment: ${{ env.TF_VAR_environment }}"
+        echo "🔗 API Gateway URL: ${{ steps.terraform-outputs.outputs.api_gateway_url }}"
+        echo "⚡ Lambda Function: ${{ steps.terraform-outputs.outputs.lambda_function_name }}"
+        echo "📱 Webhook configurado: ✅"
+        echo ""
+        echo "🧪 Para probar el bot, envía /start a tu bot de Telegram"
+
+  notify:
+    name: Notify Deployment Status
+    runs-on: ubuntu-latest
+    needs: [validate, deploy]
+    if: always()
+    
+    steps:
+    - name: Notify Success
+      if: needs.deploy.result == 'success'
+      run: |
+        echo "✅ Deployment exitoso para environment: ${{ env.TF_VAR_environment }}"
+        
+    - name: Notify Failure
+      if: needs.deploy.result == 'failure'
+      run: |
+        echo "❌ Deployment falló para environment: ${{ env.TF_VAR_environment }}"
+        echo "Revisa los logs para más detalles"

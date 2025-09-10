@@ -17,7 +17,12 @@
                 "dynamodb:BatchGetItem",
                 "dynamodb:BatchWriteItem",
                 "dynamodb:DescribeTimeToLive",
-                "dynamodb:UpdateTimeToLive"
+                "dynamodb:UpdateTimeToLive",
+                "dynamodb:TagResource",
+                "dynamodb:UntagResource",
+                "dynamodb:ListTagsOfResource",
+                "dynamodb:DescribeContinuousBackups",
+                "dynamodb:UpdateContinuousBackups"
             ],
             "Resource": [
                 "arn:aws:dynamodb:*:*:table/bot-finance-*",

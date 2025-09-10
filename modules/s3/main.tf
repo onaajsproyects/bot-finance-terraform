@@ -56,6 +56,10 @@ resource "aws_s3_bucket_lifecycle_configuration" "receipts_lifecycle" {
     id     = "receipts_lifecycle"
     status = "Enabled"
 
+    filter {
+      prefix = ""
+    }
+
     # Transition to Infrequent Access after 30 days
     transition {
       days          = var.ia_transition_days
@@ -130,7 +134,6 @@ resource "aws_lambda_permission" "s3_invoke_lambda" {
 
 # S3 Bucket policy for Lambda access
 resource "aws_s3_bucket_policy" "receipts_policy" {
-  count  = var.lambda_role_arn != null ? 1 : 0
   bucket = aws_s3_bucket.receipts.id
 
   policy = jsonencode({
@@ -140,7 +143,7 @@ resource "aws_s3_bucket_policy" "receipts_policy" {
         Sid    = "AllowLambdaAccess"
         Effect = "Allow"
         Principal = {
-          AWS = var.lambda_role_arn
+          AWS = var.lambda_role_arn != null ? var.lambda_role_arn : "*"
         }
         Action = [
           "s3:GetObject",

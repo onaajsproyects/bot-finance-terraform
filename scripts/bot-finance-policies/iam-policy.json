@@ -15,7 +15,17 @@
                 "iam:DeletePolicy",
                 "iam:GetPolicy",
                 "iam:GetPolicyVersion",
-                "iam:ListPolicyVersions"
+                "iam:ListPolicyVersions",
+                "iam:TagRole",
+                "iam:UntagRole",
+                "iam:ListRoleTags",
+                "iam:TagPolicy",
+                "iam:UntagPolicy",
+                "iam:ListPolicyTags",
+                "iam:ListRolePolicies",
+                "iam:PutRolePolicy",
+                "iam:DeleteRolePolicy",
+                "iam:GetRolePolicy"
             ],
             "Resource": [
                 "arn:aws:iam::*:role/bot-finance-*",
