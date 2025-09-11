@@ -1,55 +1,15 @@
-# Example terraform.tfvars file
-# Copy this file to terraform.tfvars and fill in your values
+# Ejemplo de archivo terraform.tfvars
+# Copia este archivo a terraform.tfvars y llena tus valores
 
-# AWS Configuration
-aws_region = "us-east-1"
-
-# Project Configuration
-project_name = "telegram-bot"
-environment  = "prod"
+# Configuración del proyecto
+organizacion = "finanzas"
+proyecto     = "bot-finance"
+ambiente     = "prod"
 owner        = "DevOps Team"
 
-# Telegram Bot Token (required)
-# Get this from @BotFather on Telegram
-telegram_token = "YOUR_TELEGRAM_BOT_TOKEN_HERE"
+# Token del Bot de Telegram (opcional para el despliegue inicial)
+# Se configurará manualmente después en AWS Systems Manager Parameter Store
+# telegram_token = "YOUR_TELEGRAM_BOT_TOKEN_HERE"
 
-# DynamoDB Configuration
-dynamodb_billing_mode                    = "PAY_PER_REQUEST"  # or "PROVISIONED"
-enable_dynamodb_point_in_time_recovery  = true
-
-# S3 Configuration
-enable_s3_versioning = true
-enable_s3_lifecycle  = true
-
-# Lambda Configuration
-lambda_runtime           = "python3.11"
-lambda_timeout          = 30
-lambda_memory_size      = 256
-lambda_log_retention_days = 14
-
-# API Gateway Configuration
-api_gateway_quota_limit           = 10000  # requests per day
-api_gateway_throttle_rate_limit   = 100    # requests per second
-api_gateway_throttle_burst_limit  = 200    # burst capacity
-
-# Monitoring and Observability
-enable_xray_tracing      = false  # Set to true for X-Ray tracing
-enable_enhanced_logging  = false  # Set to true for enhanced CloudWatch logging
-
-# Bot Configuration
-bot_config = {
-  max_retries           = 3
-  timeout_seconds       = 30
-  enable_debug_mode     = false
-  max_file_size_mb      = 10
-  supported_currencies  = ["CLP", "USD", "EUR", "GBP"]
-}
-
-# Feature Flags
-feature_flags = {
-  enable_webhooks       = true
-  enable_file_uploads   = true
-  enable_metrics        = true
-  enable_backup         = true
-  enable_notifications  = false
-}
+# Configuración de Lambda
+python_version = "3.11"

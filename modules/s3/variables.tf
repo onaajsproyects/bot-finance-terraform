@@ -1,15 +1,20 @@
-variable "project_name" {
-  description = "Name of the project"
+# Variables del proyecto
+variable "organizacion" {
+  description = "Nombre de la organización"
   type        = string
 }
 
-variable "environment" {
-  description = "Environment name"
+variable "proyecto" {
+  description = "Nombre del proyecto"
   type        = string
 }
 
-variable "tags" {
-  description = "Tags to apply to resources"
-  type        = map(string)
-  default     = {}
+variable "ambiente" {
+  description = "Ambiente de despliegue (dev, test, prod)"
+  type        = string
+}
+
+variable "region" {
+  description = "Región de AWS donde se desplegará la infraestructura"
+  type        = string
 }

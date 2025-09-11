@@ -20,45 +20,20 @@ variable "region" {
 }
 
 # Variables específicas de Lambda
-variable "source_dir" {
-  description = "Directorio que contiene el código fuente de la función Lambda"
-  type        = string
-  default     = "../../../../bot-finance-lambda/src/bot_handler"
-}
-
-variable "handler" {
-  description = "Handler de la función Lambda"
-  type        = string
-  default     = "lambda_function.lambda_handler"
-}
-
 variable "python_version" {
-  description = "Versión de Python para la función Lambda"
+  description = "Versión de Python para las funciones Lambda"
   type        = string
   default     = "3.11"
 }
 
-variable "timeout" {
-  description = "Tiempo de timeout para la función Lambda en segundos"
-  type        = number
-  default     = 30
-}
-
-variable "memory_size" {
-  description = "Cantidad de memoria asignada a la función Lambda en MB"
-  type        = number
-  default     = 128
-}
-
-variable "log_retention_days" {
-  description = "Días de retención para los logs de CloudWatch"
-  type        = number
-  default     = 7
+variable "bucket_artefactos" {
+  description = "Nombre del bucket S3 para artefactos de despliegue"
+  type        = string
 }
 
 # Variables de dependencias
 variable "lambda_role_arn" {
-  description = "ARN del rol IAM para la función Lambda"
+  description = "ARN del rol IAM para las funciones Lambda"
   type        = string
 }
 

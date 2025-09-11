@@ -44,22 +44,31 @@ jobs:
 
     - name: Terraform Format Check
       working-directory: environments/${{ env.TF_VAR_environment }}
-      run: terraform fmt -check -recursive
+      run: |
+        echo "🔍 Verificando formato de código Terraform..."
+        terraform fmt -check -recursive
+        echo "✅ Formato de código correcto"
 
     - name: Terraform Init
       working-directory: environments/${{ env.TF_VAR_environment }}
-      run: terraform init
+      run: |
+        echo "🚀 Inicializando Terraform..."
+        terraform init
+        echo "✅ Terraform inicializado correctamente"
 
     - name: Terraform Validate
       working-directory: environments/${{ env.TF_VAR_environment }}
-      run: terraform validate
+      run: |
+        echo "✅ Validando configuración de Terraform..."
+        terraform validate
+        echo "✅ Configuración válida"
 
     - name: Terraform Plan
       working-directory: environments/${{ env.TF_VAR_environment }}
       run: |
-        terraform plan \
-          -var="telegram_token=${{ secrets.TELEGRAM_TOKEN }}" \
-          -out=tfplan
+        echo "📋 Generando plan de despliegue..."
+        terraform plan -out=tfplan
+        echo "✅ Plan generado correctamente"
 
     - name: Upload Plan Artifact
       uses: actions/upload-artifact@v4
@@ -99,73 +108,29 @@ jobs:
 
     - name: Terraform Init
       working-directory: environments/${{ env.TF_VAR_environment }}
-      run: terraform init
+      run: |
+        echo "🚀 Inicializando Terraform..."
+        terraform init
+        echo "✅ Terraform inicializado correctamente"
 
     - name: Terraform Apply
       working-directory: environments/${{ env.TF_VAR_environment }}
-      run: terraform apply -auto-approve tfplan
-
-    - name: Update Telegram Token in SSM
       run: |
-        aws ssm put-parameter \
-          --region ${{ env.AWS_REGION }} \
-          --name "/bot-finance/${{ env.TF_VAR_environment }}/telegram/token" \
-          --value "${{ secrets.TELEGRAM_TOKEN }}" \
-          --type "SecureString" \
-          --overwrite
-
-    - name: Get Outputs
-      working-directory: environments/${{ env.TF_VAR_environment }}
-      id: terraform-outputs
-      run: |
-        echo "api_gateway_url=$(terraform output -raw api_gateway_url)" >> $GITHUB_OUTPUT
-        echo "lambda_function_name=$(terraform output -raw lambda_function_name)" >> $GITHUB_OUTPUT
-
-    - name: Configure Telegram Webhook
-      run: |
-        # Verificar que tenemos la URL del API Gateway
-        WEBHOOK_URL="${{ steps.terraform-outputs.outputs.api_gateway_url }}"
-        
-        if [ -z "$WEBHOOK_URL" ]; then
-          echo "❌ No se pudo obtener la URL del webhook"
-          exit 1
-        fi
-        
-        echo "🔗 Configurando webhook: $WEBHOOK_URL"
-        
-        # Obtener el token de Telegram desde GitHub Secrets
-        TELEGRAM_TOKEN="${{ secrets.TELEGRAM_TOKEN }}"
-        
-        if [ -z "$TELEGRAM_TOKEN" ]; then
-          echo "❌ No se pudo obtener el token de Telegram"
-          exit 1
-        fi
-        
-        # Configurar el webhook
-        RESPONSE=$(curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/setWebhook" \
-          -H "Content-Type: application/json" \
-          -d "{\"url\":\"${WEBHOOK_URL}\"}")
-        
-        echo "📱 Respuesta de Telegram: $RESPONSE"
-        
-        # Verificar que la configuración fue exitosa
-        if echo "$RESPONSE" | grep -q '"ok":true'; then
-          echo "✅ Webhook configurado exitosamente"
-        else
-          echo "❌ Error configurando webhook"
-          exit 1
-        fi
+        echo "🔧 Desplegando infraestructura..."
+        terraform apply -auto-approve tfplan
+        echo "✅ Infraestructura desplegada correctamente"
 
     - name: Deployment Summary
       run: |
-        echo "🎉 ¡Deployment completado!"
+        echo "🎉 ¡Deployment completado exitosamente!"
         echo "=========================="
         echo "🌍 Environment: ${{ env.TF_VAR_environment }}"
-        echo "🔗 API Gateway URL: ${{ steps.terraform-outputs.outputs.api_gateway_url }}"
-        echo "⚡ Lambda Function: ${{ steps.terraform-outputs.outputs.lambda_function_name }}"
-        echo "📱 Webhook configurado: ✅"
+        echo "📦 Recursos creados según la configuración en main.tf"
         echo ""
-        echo "🧪 Para probar el bot, envía /start a tu bot de Telegram"
+        echo "⚙️ Próximos pasos:"
+        echo "   - Verificar recursos en AWS Console"
+        echo "   - Configurar manualmente valores sensibles si es necesario"
+        echo "   - Revisar documentación en CONFIGURACION_MANUAL.md"
 
   notify:
     name: Notify Deployment Status

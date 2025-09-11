@@ -1,16 +1,22 @@
-output "table_name" {
-  description = "Name of the DynamoDB table"
-  value       = aws_dynamodb_table.transactions.name
+# Outputs del módulo dynamodb-logs
+output "logs_table_name" {
+  description = "Nombre de la tabla DynamoDB para logs"
+  value       = module.dynamodb-logs.table_name
 }
 
-output "table_arn" {
-  description = "ARN of the DynamoDB table"
-  value       = aws_dynamodb_table.transactions.arn
+output "logs_table_arn" {
+  description = "ARN de la tabla DynamoDB para logs"
+  value       = module.dynamodb-logs.table_arn
 }
 
-output "table_id" {
-  description = "ID of the DynamoDB table"
-  value       = aws_dynamodb_table.transactions.id
+output "logs_table_id" {
+  description = "ID de la tabla DynamoDB para logs"
+  value       = module.dynamodb-logs.table_id
+}
+
+output "logs_table_hash_key" {
+  description = "Clave hash de la tabla DynamoDB para logs"
+  value       = module.dynamodb-logs.table_hash_key
 }
 
 output "stream_arn" {

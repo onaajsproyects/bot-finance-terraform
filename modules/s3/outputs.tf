@@ -1,34 +1,63 @@
-output "bucket_name" {
-  description = "Name of the S3 bucket"
-  value       = aws_s3_bucket.receipts.bucket
+# Outputs del módulo receipts
+output "receipts_bucket_id" {
+  description = "ID del bucket S3 para recibos"
+  value       = module.receipts.bucket_id
 }
 
-output "bucket_arn" {
-  description = "ARN of the S3 bucket"
-  value       = aws_s3_bucket.receipts.arn
+output "receipts_bucket_arn" {
+  description = "ARN del bucket S3 para recibos"
+  value       = module.receipts.bucket_arn
 }
 
-output "bucket_id" {
-  description = "ID of the S3 bucket"
-  value       = aws_s3_bucket.receipts.id
+output "receipts_bucket_name" {
+  description = "Nombre del bucket S3 para recibos"
+  value       = module.receipts.bucket_name
 }
 
-output "bucket_domain_name" {
-  description = "Domain name of the S3 bucket"
-  value       = aws_s3_bucket.receipts.bucket_domain_name
+# Outputs del módulo artifacts
+output "artifacts_bucket_id" {
+  description = "ID del bucket S3 para artefactos"
+  value       = module.artifacts.bucket_id
 }
 
-output "bucket_regional_domain_name" {
-  description = "Regional domain name of the S3 bucket"
-  value       = aws_s3_bucket.receipts.bucket_regional_domain_name
+output "artifacts_bucket_arn" {
+  description = "ARN del bucket S3 para artefactos"
+  value       = module.artifacts.bucket_arn
 }
 
-output "bucket_hosted_zone_id" {
-  description = "Hosted zone ID of the S3 bucket"
-  value       = aws_s3_bucket.receipts.hosted_zone_id
+output "artifacts_bucket_name" {
+  description = "Nombre del bucket S3 para artefactos"
+  value       = module.artifacts.bucket_name
 }
 
-output "bucket_region" {
-  description = "Region of the S3 bucket"
-  value       = aws_s3_bucket.receipts.region
+# Outputs del módulo receipts
+output "receipts_bucket_id" {
+  description = "ID del bucket S3 para recibos"
+  value       = module.receipts.bucket_id
+}
+
+output "receipts_bucket_arn" {
+  description = "ARN del bucket S3 para recibos"
+  value       = module.receipts.bucket_arn
+}
+
+output "receipts_bucket_name" {
+  description = "Nombre del bucket S3 para recibos"
+  value       = module.receipts.bucket_name
+}
+
+# Outputs del módulo artifacts
+output "artifacts_bucket_id" {
+  description = "ID del bucket S3 para artefactos"
+  value       = module.artifacts.bucket_id
+}
+
+output "artifacts_bucket_arn" {
+  description = "ARN del bucket S3 para artefactos"
+  value       = module.artifacts.bucket_arn
+}
+
+output "artifacts_bucket_name" {
+  description = "Nombre del bucket S3 para artefactos"
+  value       = module.artifacts.bucket_name
 }

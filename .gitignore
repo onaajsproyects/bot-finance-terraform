@@ -19,6 +19,11 @@ destroy-plan
 
 # OS
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
 # Logs
@@ -37,3 +42,7 @@ build/
 
 # Backup files
 backup_*
+*.backup
+*.tmp
+*_complex.tf
+*_simple.tf

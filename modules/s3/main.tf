@@ -1,10 +1,19 @@
-# S3 Bucket for storing receipts/boletas
-resource "aws_s3_bucket" "receipts" {
-  bucket = "${var.project_name}-${var.environment}-receipts"
+module "receipts" {
+  source = "./receipts"
 
-  tags = merge(var.tags, {
-    Name    = "${var.project_name}-${var.environment}-receipts"
-    Type    = "S3"
-    Purpose = "Receipts Storage"
-  })
+  # Variables del proyecto
+  organizacion = var.organizacion
+  proyecto     = var.proyecto
+  ambiente     = var.ambiente
+  region       = var.region
+}
+
+module "artifacts" {
+  source = "./artifacts"
+
+  # Variables del proyecto
+  organizacion = var.organizacion
+  proyecto     = var.proyecto
+  ambiente     = var.ambiente
+  region       = var.region
 }

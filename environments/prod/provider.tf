@@ -28,7 +28,8 @@ terraform {
 }
 
 provider "aws" {
-  region = var.aws_region
+  region  = var.aws_region
+  profile = "personal"
 
   # Note: In CI/CD, credentials are provided via environment variables
   # For local development, you can uncomment the profile line below

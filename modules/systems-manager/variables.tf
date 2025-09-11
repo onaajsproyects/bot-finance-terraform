@@ -1,58 +1,28 @@
-variable "project_name" {
-  description = "Name of the project"
+# Variables del proyecto
+variable "organizacion" {
+  description = "Nombre de la organización"
   type        = string
 }
 
-variable "environment" {
-  description = "Environment name"
+variable "proyecto" {
+  description = "Nombre del proyecto"
   type        = string
 }
 
+variable "ambiente" {
+  description = "Ambiente de despliegue (dev, test, prod)"
+  type        = string
+}
+
+variable "region" {
+  description = "Región de AWS donde se desplegará la infraestructura"
+  type        = string
+}
+
+# Variables opcionales para parámetros específicos
 variable "telegram_token" {
-  description = "Telegram bot token"
+  description = "Token del bot de Telegram"
   type        = string
   sensitive   = true
-}
-
-variable "dynamodb_table_name" {
-  description = "Name of the DynamoDB table"
-  type        = string
-}
-
-variable "s3_bucket_name" {
-  description = "Name of the S3 bucket"
-  type        = string
-}
-
-variable "api_gateway_url" {
-  description = "URL of the API Gateway"
-  type        = string
-}
-
-variable "custom_parameters" {
-  description = "Custom SSM parameters"
-  type = map(object({
-    type        = string
-    value       = string
-    description = string
-  }))
-  default = {}
-}
-
-variable "bot_config" {
-  description = "Bot configuration object"
-  type        = any
-  default     = null
-}
-
-variable "feature_flags" {
-  description = "Feature flags configuration"
-  type        = map(bool)
-  default     = null
-}
-
-variable "tags" {
-  description = "Tags to apply to resources"
-  type        = map(string)
-  default     = {}
+  default     = ""
 }
