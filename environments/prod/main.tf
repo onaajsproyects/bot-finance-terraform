@@ -47,13 +47,13 @@ module "iam" {
 }
 
 # DynamoDB - Módulo de base de datos
-# module "dynamodb" {
-#   source = "../../modules/dynamodb"
+module "dynamodb" {
+  source = "../../modules/dynamodb"
 
-#   proyecto = var.proyecto
-#   ambiente = var.ambiente
-#   region   = data.aws_region.current.name
-# }
+  proyecto = var.proyecto
+  ambiente = var.ambiente
+  region   = data.aws_region.current.name
+}
 
 # S3 - Módulo de almacenamiento
 module "s3" {
@@ -89,13 +89,13 @@ module "lambda" {
 }
 
 # Systems Manager - Módulo de parámetros
-# module "systems_manager" {
-#   source = "../../modules/systems-manager"
+module "systems_manager" {
+  source = "../../modules/systems-manager"
 
-#   proyecto = var.proyecto
-#   ambiente = var.ambiente
-#   region   = data.aws_region.current.name
-# }
+  proyecto = var.proyecto
+  ambiente = var.ambiente
+  region   = data.aws_region.current.name
+}
 
 # API Gateway - Módulo de API
 # module "api_gateway" {
