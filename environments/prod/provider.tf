@@ -29,7 +29,7 @@ terraform {
 
 provider "aws" {
   region = "us-east-1"
-  
+
   # Para desarrollo local usar profile, en CI/CD usar variables de entorno
   # profile = "personal"  # Solo para desarrollo local
 
