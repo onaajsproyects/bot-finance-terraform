@@ -71,13 +71,13 @@ variable "bucket_receipts_name" {
   type        = string
 }
 
-variable "bucket_artefactos_arn" {
-  description = "ARN del bucket S3 para artefactos"
+variable "bucket_artifacts_arn" {
+  description = "ARN del bucket S3 para artifacts"
   type        = string
 }
 
-variable "bucket_artefactos_name" {
-  description = "Nombre del bucket S3 para artefactos"
+variable "bucket_artifacts_name" {
+  description = "Nombre del bucket S3 para artifacts"
   type        = string
 }
 
