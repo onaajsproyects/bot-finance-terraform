@@ -75,14 +75,14 @@ module "lambda" {
 
   # Variables de dependencias
   lambda_role_arn = module.iam.lambda_execution_role_arn
-  # tabla_logs_arn          = module.dynamodb.logs_table_arn
-  # tabla_logs_name         = module.dynamodb.logs_table_name
+  tabla_logs_arn          = module.dynamodb.logs_table_arn
+  tabla_logs_name         = module.dynamodb.logs_table_name
   bucket_receipts_arn   = module.s3.receipts_bucket_arn
   bucket_receipts_name  = module.s3.receipts_bucket_name
   bucket_artifacts_arn  = module.s3.artifacts_bucket_arn
   bucket_artifacts_name = module.s3.artifacts_bucket_name
-  # ssm_telegram_token_arn  = module.systems_manager.telegram_token_parameter_arn
-  # ssm_telegram_token_name = module.systems_manager.telegram_token_parameter_name
+  ssm_telegram_token_arn  = module.systems_manager.telegram_token_parameter_arn
+  ssm_telegram_token_name = module.systems_manager.telegram_token_parameter_name
   cloudwatch_log_group_arn = module.cloudwatch.lambda_log_group_arn
 
   depends_on = [module.iam, module.dynamodb, module.s3, module.systems_manager, module.cloudwatch]
