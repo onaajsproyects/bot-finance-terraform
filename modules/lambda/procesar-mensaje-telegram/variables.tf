@@ -45,12 +45,6 @@ variable "memory_size" {
   default     = 128
 }
 
-variable "log_retention_days" {
-  description = "Días de retención para los logs de CloudWatch"
-  type        = number
-  default     = 7
-}
-
 # Variables de dependencias
 variable "lambda_role_arn" {
   description = "ARN del rol IAM para la función Lambda"
@@ -77,6 +71,16 @@ variable "bucket_receipts_name" {
   type        = string
 }
 
+variable "bucket_artefactos_arn" {
+  description = "ARN del bucket S3 para artefactos"
+  type        = string
+}
+
+variable "bucket_artefactos_name" {
+  description = "Nombre del bucket S3 para artefactos"
+  type        = string
+}
+
 variable "ssm_telegram_token_arn" {
   description = "ARN del parámetro SSM para el token de Telegram"
   type        = string
@@ -84,5 +88,10 @@ variable "ssm_telegram_token_arn" {
 
 variable "ssm_telegram_token_name" {
   description = "Nombre del parámetro SSM para el token de Telegram"
+  type        = string
+}
+
+variable "cloudwatch_log_group_arn" {
+  description = "ARN del grupo de logs de CloudWatch"
   type        = string
 }

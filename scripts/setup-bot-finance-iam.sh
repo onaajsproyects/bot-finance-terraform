@@ -117,14 +117,26 @@ create_or_update_policy_from_file() {
     fi
     
     local policy_document=$(cat "$policy_file")
+    local policy_arn="arn:aws:iam::$ACCOUNT_ID:policy/$policy_name"
     
     # Verificar si la política existe
-    if aws iam get-policy --policy-arn "arn:aws:iam::$ACCOUNT_ID:policy/$policy_name" --profile $PROFILE >/dev/null 2>&1; then
+    if aws iam get-policy --policy-arn "$policy_arn" --profile $PROFILE >/dev/null 2>&1; then
         echo "🔄 Actualizando política existente: $policy_name"
+        
+        # Limpiar versiones antiguas (mantener solo la actual)
+        echo "🧹 Limpiando versiones antiguas de la política..."
+        local versions=$(aws iam list-policy-versions --policy-arn "$policy_arn" --profile $PROFILE --query 'Versions[?IsDefaultVersion==`false`].VersionId' --output text)
+        
+        for version in $versions; do
+            if [[ -n "$version" ]]; then
+                echo "🗑️  Eliminando versión antigua: $version"
+                aws iam delete-policy-version --policy-arn "$policy_arn" --version-id "$version" --profile $PROFILE >/dev/null 2>&1 || true
+            fi
+        done
         
         # Crear nueva versión de la política
         aws iam create-policy-version \
-            --policy-arn "arn:aws:iam::$ACCOUNT_ID:policy/$policy_name" \
+            --policy-arn "$policy_arn" \
             --policy-document "$policy_document" \
             --set-as-default \
             --profile $PROFILE

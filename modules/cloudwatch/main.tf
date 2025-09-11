@@ -1,6 +1,6 @@
 # CloudWatch Log Groups for all services
 resource "aws_cloudwatch_log_group" "lambda_logs" {
-  name              = "/aws/lambda/${var.project_name}-${var.environment}-bot-handler"
+  name              = "/aws/lambda/${var.project_name}-${var.environment}-procesar-mensaje-telegram"
   retention_in_days = var.log_retention_days
 
   tags = merge(var.tags, {

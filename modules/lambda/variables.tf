@@ -61,3 +61,8 @@ variable "ssm_telegram_token_name" {
   description = "Nombre del parámetro SSM para el token de Telegram"
   type        = string
 }
+
+variable "cloudwatch_log_group_arn" {
+  description = "ARN del grupo de logs de CloudWatch"
+  type        = string
+}

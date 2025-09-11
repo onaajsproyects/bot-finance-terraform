@@ -4,24 +4,11 @@
         {
             "Effect": "Allow",
             "Action": [
-                "lambda:CreateFunction",
-                "lambda:UpdateFunctionCode",
-                "lambda:UpdateFunctionConfiguration",
-                "lambda:GetFunction",
-                "lambda:DeleteFunction",
-                "lambda:ListFunctions",
-                "lambda:InvokeFunction",
-                "lambda:AddPermission",
-                "lambda:RemovePermission",
-                "lambda:GetPolicy",
-                "lambda:CreateEventSourceMapping",
-                "lambda:DeleteEventSourceMapping",
-                "lambda:GetEventSourceMapping",
-                "lambda:ListEventSourceMappings"
+                "lambda:*"
             ],
             "Resource": [
                 "arn:aws:lambda:*:*:function:bot-finance-*",
-                "arn:aws:lambda:*:*:event-source-mapping:*"
+                "arn:aws:lambda:*:*:event-source-mapping:bot-finance-*"
             ]
         },
         {

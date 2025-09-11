@@ -16,22 +16,35 @@ data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
 # CloudWatch Logs - Módulo de monitoreo centralizado
-# module "cloudwatch" {
-#   source = "../../modules/cloudwatch"
+module "cloudwatch" {
+  source = "../../modules/cloudwatch"
 
-#   proyecto = var.proyecto
-#   ambiente = var.ambiente
-#   region   = data.aws_region.current.name
-# }
+  project_name = var.proyecto
+  environment  = var.ambiente
+
+  # Variables de configuración de logs
+  log_retention_days       = 30
+  error_log_retention_days = 90
+
+  # Tags comunes
+  tags = {
+    Proyecto = var.proyecto
+    Ambiente = var.ambiente
+    Region   = data.aws_region.current.name
+  }
+}
 
 # IAM - Módulo de seguridad
-# module "iam" {
-#   source = "../../modules/iam"
+module "iam" {
+  source = "../../modules/iam"
 
-#   proyecto = var.proyecto
-#   ambiente = var.ambiente
-#   region   = data.aws_region.current.name
-# }
+  proyecto = var.proyecto
+  ambiente = var.ambiente
+  region   = data.aws_region.current.name
+
+  # Configuración de acceso a servicios
+  enable_dynamodb_access = false # Cambiar a true cuando DynamoDB esté activo
+}
 
 # DynamoDB - Módulo de base de datos
 # module "dynamodb" {
@@ -52,26 +65,27 @@ module "s3" {
 }
 
 # Lambda - Módulo de funciones
-# module "lambda" {
-#   source = "../../modules/lambda"
+module "lambda" {
+  source = "../../modules/lambda"
 
-#   proyecto          = var.proyecto
-#   ambiente          = var.ambiente
-#   region            = data.aws_region.current.name
-#   python_version    = var.python_version
-#   bucket_artefactos = module.s3.artifacts_bucket_name
+  proyecto          = var.proyecto
+  ambiente          = var.ambiente
+  region            = data.aws_region.current.name
+  python_version    = var.python_version
+  bucket_artefactos = module.s3.artifacts_bucket_name
 
-#   # Variables de dependencias
-#   lambda_role_arn         = module.iam.lambda_execution_role_arn
-#   tabla_logs_arn          = module.dynamodb.logs_table_arn
-#   tabla_logs_name         = module.dynamodb.logs_table_name
-#   bucket_receipts_arn     = module.s3.receipts_bucket_arn
-#   bucket_receipts_name    = module.s3.receipts_bucket_name
-#   ssm_telegram_token_arn  = module.systems_manager.telegram_token_parameter_arn
-#   ssm_telegram_token_name = module.systems_manager.telegram_token_parameter_name
+  # Variables de dependencias
+  lambda_role_arn = module.iam.lambda_execution_role_arn
+  # tabla_logs_arn          = module.dynamodb.logs_table_arn
+  # tabla_logs_name         = module.dynamodb.logs_table_name
+  bucket_receipts_arn  = module.s3.receipts_bucket_arn
+  bucket_receipts_name = module.s3.receipts_bucket_name
+  # ssm_telegram_token_arn  = module.systems_manager.telegram_token_parameter_arn
+  # ssm_telegram_token_name = module.systems_manager.telegram_token_parameter_name
+  cloudwatch_log_group_arn = module.cloudwatch.lambda_log_group_arn
 
-#   depends_on = [module.iam, module.dynamodb, module.s3, module.systems_manager]
-# }
+  depends_on = [module.iam, module.dynamodb, module.s3, module.systems_manager, module.cloudwatch]
+}
 
 # Systems Manager - Módulo de parámetros
 # module "systems_manager" {
@@ -91,7 +105,7 @@ module "s3" {
 #   region   = data.aws_region.current.name
 
 #   # Variables de dependencias
-#   lambda_invoke_arn = module.lambda.bot_handler_invoke_arn
+#   lambda_invoke_arn = module.lambda.procesar_mensaje_telegram_invoke_arn
 
 #   depends_on = [module.lambda]
 # }

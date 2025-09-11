@@ -14,9 +14,9 @@ variable "region" {
   type        = string
 }
 
-# Variables de configuración de servicios
+# Variables específicas para políticas de Lambda
 variable "enable_dynamodb_access" {
-  description = "Habilitar acceso a DynamoDB para Lambda"
+  description = "Habilitar acceso a DynamoDB"
   type        = bool
   default     = false
 }
