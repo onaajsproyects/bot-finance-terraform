@@ -28,12 +28,10 @@ terraform {
 }
 
 provider "aws" {
-  region  = "us-east-1"
-  profile = "personal"
-
-  # Note: In CI/CD, credentials are provided via environment variables
-  # For local development, you can uncomment the profile line below
-  # profile = "bot-finance"
+  region = "us-east-1"
+  
+  # Para desarrollo local usar profile, en CI/CD usar variables de entorno
+  # profile = "personal"  # Solo para desarrollo local
 
   default_tags {
     tags = {
