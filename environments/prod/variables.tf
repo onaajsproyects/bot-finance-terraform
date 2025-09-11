@@ -1,10 +1,4 @@
 # Variables del proyecto
-variable "organizacion" {
-  description = "Nombre de la organización"
-  type        = string
-  default     = "finanzas"
-}
-
 variable "proyecto" {
   description = "Nombre del proyecto"
   type        = string

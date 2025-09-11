@@ -49,10 +49,9 @@ output "artifacts_bucket_name" {
 output "environment_info" {
   description = "Información del ambiente desplegado"
   value = {
-    organizacion = var.organizacion
-    proyecto     = var.proyecto
-    ambiente     = var.ambiente
-    region       = data.aws_region.current.name
-    account_id   = data.aws_caller_identity.current.account_id
+    proyecto   = var.proyecto
+    ambiente   = var.ambiente
+    region     = data.aws_region.current.name
+    account_id = data.aws_caller_identity.current.account_id
   }
 }

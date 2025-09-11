@@ -10,7 +10,7 @@ El token se debe configurar en AWS Systems Manager Parameter Store:
 
 **Ruta del parámetro:**
 ```
-/finanzas-bot-finance-{ambiente}/telegram/token
+/bot-finance-{ambiente}/telegram/token
 ```
 
 **Pasos:**

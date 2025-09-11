@@ -18,8 +18,8 @@ resource "aws_lambda_function" "bot_handler" {
 
   environment {
     variables = {
-      DYNAMODB_TABLE     = var.tabla_logs_name
-      S3_BUCKET_RECEIPTS = var.bucket_receipts_name
+      DYNAMODB_TABLE       = var.tabla_logs_name
+      S3_BUCKET_RECEIPTS   = var.bucket_receipts_name
       TELEGRAM_TOKEN_PARAM = var.ssm_telegram_token_name
     }
   }
@@ -38,14 +38,13 @@ resource "aws_cloudwatch_log_group" "lambda_logs" {
 
 # Locals para naming conventions
 locals {
-  function_name = "${var.organizacion}-${var.proyecto}-${var.ambiente}-bot-handler"
-  
+  function_name = "${var.proyecto}-${var.ambiente}-bot-handler"
+
   tags = {
-    Organizacion = var.organizacion
-    Proyecto     = var.proyecto
-    Ambiente     = var.ambiente
-    Region       = var.region
-    Name         = local.function_name
-    Type         = "Lambda"
+    Proyecto = var.proyecto
+    Ambiente = var.ambiente
+    Region   = var.region
+    Name     = local.function_name
+    Type     = "Lambda"
   }
 }

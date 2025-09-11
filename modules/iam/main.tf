@@ -101,7 +101,7 @@ resource "aws_iam_role_policy" "lambda_ssm_policy" {
           "ssm:GetParameters",
           "ssm:GetParametersByPath"
         ]
-        Resource = "arn:aws:ssm:${var.region}:*:parameter/${var.organizacion}-${var.proyecto}/*"
+        Resource = "arn:aws:ssm:${var.region}:*:parameter/${var.proyecto}/*"
       }
     ]
   })
@@ -109,14 +109,13 @@ resource "aws_iam_role_policy" "lambda_ssm_policy" {
 
 # Locals para naming conventions
 locals {
-  role_name = "${var.organizacion}-${var.proyecto}-${var.ambiente}-lambda-execution-role"
-  
+  role_name = "${var.proyecto}-${var.ambiente}-lambda-execution-role"
+
   tags = {
-    Organizacion = var.organizacion
-    Proyecto     = var.proyecto
-    Ambiente     = var.ambiente
-    Region       = var.region
-    Name         = local.role_name
-    Type         = "IAM Role"
+    Proyecto = var.proyecto
+    Ambiente = var.ambiente
+    Region   = var.region
+    Name     = local.role_name
+    Type     = "IAM Role"
   }
 }

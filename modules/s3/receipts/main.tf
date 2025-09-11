@@ -1,13 +1,12 @@
 locals {
-  bucket_name = "${var.organizacion}-${var.proyecto}-${var.ambiente}-receipts"
+  bucket_name = "${var.proyecto}-${var.ambiente}-receipts"
 
   tags = {
-    Organizacion = var.organizacion
-    Proyecto     = var.proyecto
-    Ambiente     = var.ambiente
-    Region       = var.region
-    Name         = local.bucket_name
-    Type         = "S3"
+    Proyecto = var.proyecto
+    Ambiente = var.ambiente
+    Region   = var.region
+    Name     = local.bucket_name
+    Type     = "S3"
   }
 }
 

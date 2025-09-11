@@ -1,12 +1,11 @@
 # Common tags para todos los recursos
 locals {
   common_tags = {
-    Organizacion = var.organizacion
-    Proyecto     = var.proyecto
-    Ambiente     = var.ambiente
-    Owner        = var.owner
-    CreatedBy    = "terraform"
-    CreatedAt    = timestamp()
+    Proyecto  = var.proyecto
+    Ambiente  = var.ambiente
+    Owner     = var.owner
+    CreatedBy = "terraform"
+    CreatedAt = timestamp()
   }
 }
 
@@ -20,47 +19,42 @@ data "aws_region" "current" {}
 # module "cloudwatch" {
 #   source = "../../modules/cloudwatch"
 
-#   organizacion = var.organizacion
-#   proyecto     = var.proyecto
-#   ambiente     = var.ambiente
-#   region       = data.aws_region.current.name
+#   proyecto = var.proyecto
+#   ambiente = var.ambiente
+#   region   = data.aws_region.current.name
 # }
 
 # IAM - Módulo de seguridad
 # module "iam" {
 #   source = "../../modules/iam"
 
-#   organizacion = var.organizacion
-#   proyecto     = var.proyecto
-#   ambiente     = var.ambiente
-#   region       = data.aws_region.current.name
+#   proyecto = var.proyecto
+#   ambiente = var.ambiente
+#   region   = data.aws_region.current.name
 # }
 
 # DynamoDB - Módulo de base de datos
 # module "dynamodb" {
 #   source = "../../modules/dynamodb"
 
-#   organizacion = var.organizacion
-#   proyecto     = var.proyecto
-#   ambiente     = var.ambiente
-#   region       = data.aws_region.current.name
+#   proyecto = var.proyecto
+#   ambiente = var.ambiente
+#   region   = data.aws_region.current.name
 # }
 
 # S3 - Módulo de almacenamiento
 module "s3" {
   source = "../../modules/s3"
 
-  organizacion = var.organizacion
-  proyecto     = var.proyecto
-  ambiente     = var.ambiente
-  region       = data.aws_region.current.name
+  proyecto = var.proyecto
+  ambiente = var.ambiente
+  region   = data.aws_region.current.name
 }
 
 # Lambda - Módulo de funciones
 # module "lambda" {
 #   source = "../../modules/lambda"
 
-#   organizacion      = var.organizacion
 #   proyecto          = var.proyecto
 #   ambiente          = var.ambiente
 #   region            = data.aws_region.current.name
@@ -83,20 +77,18 @@ module "s3" {
 # module "systems_manager" {
 #   source = "../../modules/systems-manager"
 
-#   organizacion = var.organizacion
-#   proyecto     = var.proyecto
-#   ambiente     = var.ambiente
-#   region       = data.aws_region.current.name
+#   proyecto = var.proyecto
+#   ambiente = var.ambiente
+#   region   = data.aws_region.current.name
 # }
 
 # API Gateway - Módulo de API
 # module "api_gateway" {
 #   source = "../../modules/api-gateway"
 
-#   organizacion = var.organizacion
-#   proyecto     = var.proyecto
-#   ambiente     = var.ambiente
-#   region       = data.aws_region.current.name
+#   proyecto = var.proyecto
+#   ambiente = var.ambiente
+#   region   = data.aws_region.current.name
 
 #   # Variables de dependencias
 #   lambda_invoke_arn = module.lambda.bot_handler_invoke_arn

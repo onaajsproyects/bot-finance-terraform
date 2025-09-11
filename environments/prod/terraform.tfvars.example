@@ -2,10 +2,9 @@
 # Copia este archivo a terraform.tfvars y llena tus valores
 
 # Configuración del proyecto
-organizacion = "finanzas"
-proyecto     = "bot-finance"
-ambiente     = "prod"
-owner        = "DevOps Team"
+proyecto = "bot-finance"
+ambiente = "prod"
+owner    = "DevOps Team"
 
 # Token del Bot de Telegram (opcional para el despliegue inicial)
 # Se configurará manualmente después en AWS Systems Manager Parameter Store

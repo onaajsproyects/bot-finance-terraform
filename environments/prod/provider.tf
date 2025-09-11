@@ -35,11 +35,10 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Organizacion = var.organizacion
-      Proyecto     = var.proyecto
-      Ambiente     = var.ambiente
-      ManagedBy    = "terraform"
-      Owner        = var.owner
+      Proyecto  = var.proyecto
+      Ambiente  = var.ambiente
+      ManagedBy = "terraform"
+      Owner     = var.owner
     }
   }
 }

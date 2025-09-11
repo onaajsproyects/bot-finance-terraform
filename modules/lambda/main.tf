@@ -2,10 +2,9 @@ module "bot-handler" {
   source = "./bot-handler"
 
   # Variables del proyecto
-  organizacion = var.organizacion
-  proyecto     = var.proyecto
-  ambiente     = var.ambiente
-  region       = var.region
+  proyecto = var.proyecto
+  ambiente = var.ambiente
+  region   = var.region
 
   # Variables específicas de Lambda
   python_version    = var.python_version

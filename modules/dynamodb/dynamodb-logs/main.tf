@@ -25,14 +25,13 @@ resource "aws_dynamodb_table" "logs" {
 
 # Locals para naming conventions
 locals {
-  table_name = "${var.organizacion}-${var.proyecto}-${var.ambiente}-logs"
+  table_name = "${var.proyecto}-${var.ambiente}-logs"
 
   tags = {
-    Organizacion = var.organizacion
-    Proyecto     = var.proyecto
-    Ambiente     = var.ambiente
-    Region       = var.region
-    Name         = local.table_name
-    Type         = "DynamoDB"
+    Proyecto = var.proyecto
+    Ambiente = var.ambiente
+    Region   = var.region
+    Name     = local.table_name
+    Type     = "DynamoDB"
   }
 }

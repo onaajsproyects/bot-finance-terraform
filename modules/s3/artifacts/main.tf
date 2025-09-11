@@ -1,13 +1,12 @@
 locals {
-  bucket_name = "${var.organizacion}-${var.proyecto}-${var.ambiente}-artifacts"
+  bucket_name = "${var.proyecto}-${var.ambiente}-artifacts"
 
   tags = {
-    Organizacion = var.organizacion
-    Proyecto     = var.proyecto
-    Ambiente     = var.ambiente
-    Region       = var.region
-    Name         = local.bucket_name
-    Type         = "S3"
+    Proyecto = var.proyecto
+    Ambiente = var.ambiente
+    Region   = var.region
+    Name     = local.bucket_name
+    Type     = "S3"
   }
 }
 # Bucket S3 para almacenar artefactos de despliegue - Configuración mínima
