@@ -28,7 +28,7 @@ terraform {
 }
 
 provider "aws" {
-  region  = var.aws_region
+  region  = "us-east-1"
   profile = "personal"
 
   # Note: In CI/CD, credentials are provided via environment variables
@@ -37,10 +37,11 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Project     = var.project_name
-      Environment = var.environment
-      ManagedBy   = "terraform"
-      Owner       = var.owner
+      Organizacion = var.organizacion
+      Proyecto     = var.proyecto
+      Ambiente     = var.ambiente
+      ManagedBy    = "terraform"
+      Owner        = var.owner
     }
   }
 }
