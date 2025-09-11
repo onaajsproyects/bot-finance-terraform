@@ -16,15 +16,14 @@ terraform {
     }
   }
 
-  # Backend configuration for remote state (recommended for production)
-  # Uncomment and configure for production use
-  # backend "s3" {
-  #   bucket         = "your-terraform-state-bucket"
-  #   key            = "bot-finance/prod/terraform.tfstate"
-  #   region         = "us-east-1"
-  #   encrypt        = true
-  #   dynamodb_table = "terraform-state-lock"
-  # }
+  # Backend configuration for remote state
+  backend "s3" {
+    bucket         = "bot-finance-terraform-state"
+    key            = "bot-finance/prod/terraform.tfstate"
+    region         = "us-east-1"
+    encrypt        = true
+    dynamodb_table = "bot-finance-terraform-locks"
+  }
 }
 
 provider "aws" {
