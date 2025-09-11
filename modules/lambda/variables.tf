@@ -52,6 +52,16 @@ variable "bucket_receipts_name" {
   type        = string
 }
 
+variable "bucket_artifacts_arn" {
+  description = "ARN del bucket S3 para artefactos"
+  type        = string
+}
+
+variable "bucket_artifacts_name" {
+  description = "Nombre del bucket S3 para artefactos"
+  type        = string
+}
+
 variable "ssm_telegram_token_arn" {
   description = "ARN del parámetro SSM para el token de Telegram"
   type        = string

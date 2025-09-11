@@ -1,6 +1,6 @@
 locals {
   function_name = "${var.proyecto}-${var.ambiente}-procesar-mensaje-telegram"
-  artifact_key = "${local.function_name}.zip"
+  artifact_key = "${replace(local.function_name, "-", "_")}.zip"
 
   tags = {
     Proyecto = var.proyecto
@@ -18,7 +18,7 @@ data "archive_file" "source" {
 }
 
 resource "aws_s3_object" "artifact_upload" {
-  bucket = var.bucket_artefactos
+  bucket = var.bucket_artifacts_name
   key = "lambda/${local.artifact_key}"
   source = "${data.archive_file.source.output_path}"
 }
@@ -27,7 +27,7 @@ resource "aws_s3_object" "artifact_upload" {
 resource "aws_lambda_function" "procesar_mensaje_telegram" {
   function_name = "${local.function_name}"
   description = "Procesa los mensajes de telegram: extrae, transforma y almacena"
-  s3_bucket = var.bucket_artefactos
+  s3_bucket = var.bucket_artifacts_name
   s3_key = "${aws_s3_object.artifact_upload.key}"
   role = var.lambda_role_arn
   handler = var.handler
