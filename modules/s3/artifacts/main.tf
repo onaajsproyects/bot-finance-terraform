@@ -15,10 +15,10 @@ resource "aws_s3_bucket" "artifacts" {
   tags   = local.tags
 }
 
-# Configuración de versionado del bucket
-resource "aws_s3_bucket_versioning" "artifacts" {
-  bucket = aws_s3_bucket.artifacts.id
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
+# TODO: Configuración de versionado del bucket (comentado temporalmente para deployment rápido)
+# resource "aws_s3_bucket_versioning" "artifacts" {
+#   bucket = aws_s3_bucket.artifacts.id
+#   versioning_configuration {
+#     status = "Enabled"
+#   }
+# }
