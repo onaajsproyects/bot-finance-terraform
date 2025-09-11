@@ -21,11 +21,6 @@ variable "python_version" {
   default     = "3.11"
 }
 
-variable "bucket_artefactos" {
-  description = "Nombre del bucket S3 para artefactos de despliegue"
-  type        = string
-}
-
 # Variables de dependencias
 variable "lambda_role_arn" {
   description = "ARN del rol IAM para las funciones Lambda"

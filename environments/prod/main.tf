@@ -68,11 +68,10 @@ module "s3" {
 module "lambda" {
   source = "../../modules/lambda"
 
-  proyecto          = var.proyecto
-  ambiente          = var.ambiente
-  region            = data.aws_region.current.name
-  python_version    = var.python_version
-  bucket_artefactos = module.s3.artifacts_bucket_name
+  proyecto       = var.proyecto
+  ambiente       = var.ambiente
+  region         = data.aws_region.current.name
+  python_version = var.python_version
 
   # Variables de dependencias
   lambda_role_arn = module.iam.lambda_execution_role_arn
