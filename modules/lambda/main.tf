@@ -7,8 +7,8 @@ module "procesar-mensaje-telegram" {
   region   = var.region
 
   # Variables específicas de Lambda
-  python_version         = var.python_version
-  lambda_role_arn        = var.lambda_role_arn
+  python_version  = var.python_version
+  lambda_role_arn = var.lambda_role_arn
 
   # Variables de dependencias
   tabla_logs_arn           = var.tabla_logs_arn
