@@ -49,11 +49,8 @@ module "dynamodb" {
 module "s3" {
   source = "../../modules/s3"
 
-  project_name      = var.project_name
-  environment       = var.environment
-  enable_versioning = var.enable_s3_versioning
-  enable_lifecycle  = var.enable_s3_lifecycle
-  lambda_role_arn   = module.iam.lambda_execution_role_arn
+  project_name = var.project_name
+  environment  = var.environment
 
   tags = local.common_tags
 }

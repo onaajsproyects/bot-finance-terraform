@@ -41,19 +41,6 @@ variable "enable_dynamodb_point_in_time_recovery" {
   default     = true
 }
 
-# S3 Configuration
-variable "enable_s3_versioning" {
-  description = "Enable S3 bucket versioning"
-  type        = bool
-  default     = true
-}
-
-variable "enable_s3_lifecycle" {
-  description = "Enable S3 lifecycle management"
-  type        = bool
-  default     = true
-}
-
 # Lambda Configuration
 variable "lambda_runtime" {
   description = "Lambda runtime"
